@@ -319,6 +319,14 @@ def test_last_seen_relative_seconds():
     assert fql == "last_seen: >='2023-08-15T01:01:00Z'"
 
 
+def test_os_mixed_case_fql():
+    """Test that the OS filter normalises platform names."""
+    fql_generator = FQLGenerator(dialect="hosts")
+    fql_generator.create_new_filter("OS", ["Windows", "linux", "mAc"])
+    fql = fql_generator.get_fql()
+    assert fql == "platform_name: ['Windows','Linux','Mac']"
+
+
 def test_os_not_fql():
     """Test filtering by OS with NOT operator."""
     fql_generator = FQLGenerator(dialect="hosts")
